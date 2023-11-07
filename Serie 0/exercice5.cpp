@@ -1,81 +1,58 @@
-#include<iostream>
-using namespace std;
+#include<stdlib.h>
+#include<stdio.h>
 /*
-Exercice 3:
------------
-Créer un programme qui:
-1. Demande de l'utilisateur la taille du tableau des entiers moins de 10.
-2. Donne la main à l'utilisateur d'entrer les valeurs du tableau.
-3. Affiche la somme des valeurs du tableau à l'aide d'une fonction.
-4. Affiche la moyenne du tableau à l'aide d'une fonction.
-
-Exercice 5:
-------------
-Écrire une fonction qui permet de rechercher dans un tableau d’entiers tab une valeur A. 
-void chercherVal (int tab[], int n, int A, int *pos, int *nb_occ); 
-Dans pos, la fonction sauvegarde l’indice de la dernière apparition et -1 si la valeur n’a pas été trouvée. 
-Dans nb_occ, elle sauvegarde le nombre d’occurence de A dans tab.
+Exercice 7:
+--------------
+1. Créer une structure note qui a les composants suivants : valeur, coefficient, module.
+2. Créer une structure étudiant qui a les composants suivants : nom, matricule, 3 notes.
+3. Créer 3 variables d'étudiants avec l'insertion des données.
+4. Créer une fonction moyenne qui prend étudiant en parametre et return la note moyenne.
+5. Afficher les informations et la moyenne de chaque étudiant.
 */
+// Créer une structure note qui a les composants suivants : valeur, coefficient, module.
+typedef struct {
+    float valeur;
+    int coeff;
+    char module[10];
+}note;
+// Créer une structure étudiant qui a les composants suivants : nom, matricule, 3 notes.
+typedef struct {
+    char nom[10];
+    char matricule[10];
+    note notes[3];
+}etudiant;
 
-// 3. Affiche la somme des valeurs du tableau à l'aide d'une fonction.
-int somme(int *t, int taille){
-    int s = 0;
-    for(int i=0; i<taille; i++){
-        s+=t[i];
+// Créer une fonction moyenne qui prend étudiant en parametre et return la note moyenne.
+float moyenne(etudiant e){
+    float s1 = 0, s2 = 0;
+    for(int i=0; i<3; i++){
+        s1 += e.notes[i].valeur * e.notes[i].coeff;
+        s2 += e.notes[i].coeff;
     }
-    return s;
-}
-// 4. Affiche la moyenne du tableau à l'aide d'une fonction.
-float moyenne(int *t2, int taille2){
-    int s = somme(t2, taille2);
-    float m = s / taille2;
-    return m;
+    return s1/s2;
 }
 
-// Exercice 5
-void chercherVal (int tab[], int n, int A, int &pos, int &nb_occ){
-    nb_occ = 0;
-    pos = -1;
-    for(int i=0; i < n; i++){
-        if(A == tab[i]){
-            pos = i;
-            nb_occ++;
+int main() {
+    // Créer 3 variables d'étudiants avec l'insertion des données.
+    etudiant etudiants[3];
+    for(int i=0; i< 3; i++){
+        printf("Donner le nom: ");
+        scanf("%s", &etudiants[i].nom);
+        printf("Donner le matricule: ");
+        scanf("%s", etudiants[i].matricule);
+        for(int j=0; j<3; j++){
+            printf("Donner la note: ");
+            scanf("%f",&etudiants[i].notes[j].valeur);
+            printf("Donner le coeff de la note: ");
+            scanf("%d", &etudiants[i].notes[j].coeff);
+            printf("Donner le module de la note: ");
+            scanf("%s", &etudiants[i].notes[j].module);
         }
     }
-}
-
-int main(){
-    int taille;
-    int *tab;
-    int a, pos2, nb_occ2;
-    // 1. Demande de l'utilisateur la taille du tableau des entiers moins de 10.
-    do{
-    cout<<"Donner la taille: ";
-    cin>>taille;
-    }while(taille > 10);
-
-    //2. Donne la main à l'utilisateur d'entrer les valeurs du tableau.
-    tab = new int[taille];
-
-    for(int i = 0; i< taille; i++){
-        cout<<"Entrer la valeur de "<<i+1<<": ";
-        cin>>tab[i];
+    // Afficher les informations et la moyenne de chaque étudiant.
+    for(int i=0; i<3; i++){
+        printf("Le nom: %s la moyenne est: %.2f", etudiants[i].nom, moyenne(etudiants[i]));
     }
 
-    //3. Affiche la somme des valeurs du tableau à l'aide d'une fonction.
-    cout<<"La somme est: "<<somme(tab, taille);
-    //4. Affiche la moyenne du tableau à l'aide d'une fonction.
-    cout<<"La moyenne est: "<<moyenne(tab, taille);
-
-    // Exercice 5
-    cout<<"Donner la valeur a chercher: ";
-    cin>>a;
-    chercherVal(tab, taille, a, pos2, nb_occ2);
-    cout<<"Derniere position: "<<pos2<<endl;
-    cout<<"Nmbre d'occ: "<<nb_occ2<<endl;
-
-
-
-    
     return 0;
 }

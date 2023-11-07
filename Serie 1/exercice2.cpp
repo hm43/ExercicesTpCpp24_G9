@@ -37,14 +37,12 @@ public:
     }
 
 };
+
 int main(){
     Point p;
     Point p2(2.5 , -1.33);
     cout<<"La distance entre "<<p.afficher()<<" et "<<p2.afficher()<<": "
     <<p.distance(p2)<<endl;
-
-    
-    
 
     return 0;
 }
